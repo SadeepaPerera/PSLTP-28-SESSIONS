@@ -1,0 +1,9 @@
+# Ignore virtual environment
+psltp_env/
+
+# Ignore dependencies file
+requirements.txt
+
+# Python cache
+__pycache__/
+*.pyc
