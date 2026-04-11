@@ -1,0 +1,32 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:16
+    container_name: psltp_db
+    environment:
+      POSTGRES_USER: psltp_user
+      POSTGRES_PASSWORD: psltp_password
+      POSTGRES_DB: psltp_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: psltp_backend
+    depends_on:
+      - db
+    environment:
+      DATABASE_URL: postgresql://psltp_user:psltp_password@db:5432/psltp_db
+      LOG_LEVEL: DEBUG
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/app
+
+volumes:
+  postgres_data:
